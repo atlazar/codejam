@@ -3,15 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"errors"
 )
-
-type RunError struct {
-	text string
-}
-
-func (this RunError) Error() string {
-	return this.text
-}
 
 func main() {
 	if err := run(); err != nil {
@@ -22,7 +15,7 @@ func main() {
 
 func run() error {
 	if len(os.Args) != 2 {
-		return RunError{"Expected exactly one program argument (problem name)"}
+		return errors.New("expected exactly one program argument (problem name)")
 	}
 
 	solvers := map[string]func() (string, error){
@@ -32,12 +25,12 @@ func run() error {
 	problem := os.Args[1]
 	solver, exist := solvers[problem];
 	if !exist {
-		return RunError{fmt.Sprintf("Unknown problem \"%s\". Solver for this problem not found\n", problem)}
+		return fmt.Errorf("unknown problem '%v'. Solver for this problem not found", problem)
 	}
 
 	var cases int
 	if _, err := fmt.Scan(&cases); err != nil {
-		return RunError{fmt.Sprintf("Unable to read number of test cases. Error", err)}
+		return fmt.Errorf("unable to read number of test cases. Error: '%v'", err)
 	}
 
 	for i := 0; i < cases; i++ {

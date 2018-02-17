@@ -30,7 +30,7 @@ func SolveA() (string, error) {
 func readCase() (stackSize int, cakes []Pancake, err error) {
 	var totalSize int
 	if _, e := fmt.Scan(&totalSize, &stackSize); e != nil {
-		err = RunError{fmt.Sprint("Unable to read total/stack sizes. Error:", e)}
+		err = fmt.Errorf("unable to read total/stack sizes. Error: '%v'", e)
 		return
 	}
 
@@ -38,7 +38,7 @@ func readCase() (stackSize int, cakes []Pancake, err error) {
 	for i := 0; i < totalSize; i++ {
 		var r, h int
 		if _, e := fmt.Scan(&r, &h); e != nil {
-			err = RunError{fmt.Sprint("Unable to read pancake. Error:", e)}
+			err = fmt.Errorf("unable to read pancake. Error: '%v'", e)
 			return
 		}
 		cakes[i] = newPancake(r, h)
