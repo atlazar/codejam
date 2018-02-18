@@ -20,6 +20,7 @@ func run() error {
 
 	solvers := map[string]func() (string, error){
 		"problema": SolveA,
+		"problemb": SolveB,
 	}
 
 	problem := os.Args[1]
